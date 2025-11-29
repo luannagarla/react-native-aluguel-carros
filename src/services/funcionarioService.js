@@ -39,3 +39,13 @@ export async function excluirFuncionario(id) {
     throw e;
   }
 }
+
+export async function buscarFuncionarios(texto) {
+  try {
+    const r = await api.get(`/funcionarios/buscar?q=${texto}`);
+    return r.data;
+  } catch (e) {
+    console.log("ERRO BUSCAR FUNCIONARIOS FILTRO >>", e);
+    throw e;
+  }
+}

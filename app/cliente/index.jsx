@@ -5,19 +5,23 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
-import { listarClientes } from "../../src/services/clienteService";
+import { buscarClientes, listarClientes } from "../../src/services/clienteService";
 
 export default function ClienteListScreen() {
   const [clientes, setClientes] = useState([]);
+  const [filtrados, setFiltrados] = useState([]);
+  const [busca, setBusca] = useState("");
   const [loading, setLoading] = useState(true);
 
   async function carregar() {
     try {
       const data = await listarClientes();
       setClientes(data);
+      setFiltrados(data);
     } catch (err) {
       console.log("ERRO LISTAR CLIENTES >>", err);
       alert("Erro ao carregar clientes");
@@ -30,6 +34,22 @@ export default function ClienteListScreen() {
     carregar();
   }, []);
 
+  async function filtrar(texto) {
+    setBusca(texto);
+
+    if (!texto.trim()) {
+      setFiltrados(clientes); 
+      return;
+    }
+
+    try {
+      const data = await buscarClientes(texto);
+      setFiltrados(data);
+    } catch (e) {
+      console.log("ERRO FILTRAR CLIENTES >>", e);
+    }
+  }
+
   if (loading)
     return (
       <View style={styles.center}>
@@ -41,7 +61,15 @@ export default function ClienteListScreen() {
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Clientes</Text>
 
-      {clientes.map((c) => (
+      {/* CAMPO DE BUSCA */}
+      <TextInput
+        placeholder="Buscar por nome..."
+        style={styles.input}
+        value={busca}
+        onChangeText={filtrar}
+      />
+
+      {filtrados.map((c) => (
         <View key={c.id} style={styles.card}>
           <Text style={styles.cardTitle}>{c.nome}</Text>
           <Text>CPF: {c.cpf}</Text>
@@ -68,6 +96,17 @@ export default function ClienteListScreen() {
 const styles = StyleSheet.create({
   container: { padding: 20 },
   center: { flex: 1, justifyContent: "center", alignItems: "center" },
+
+  input: {
+    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: "#ccc",
+    padding: 10,
+    borderRadius: 8,
+    marginBottom: 15,
+    fontSize: 16,
+  },
+
   card: {
     backgroundColor: "#eee",
     padding: 15,
@@ -82,6 +121,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   btnDetalhesText: { color: "#fff", textAlign: "center" },
+
   btnNovo: {
     padding: 14,
     borderRadius: 6,

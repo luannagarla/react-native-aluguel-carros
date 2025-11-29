@@ -5,19 +5,23 @@ import {
   FlatList,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
-import { listarCarros } from "../../src/services/carroService";
+import { buscarCarros, listarCarros } from "../../src/services/carroService";
 
 export default function CarroListScreen() {
   const [carros, setCarros] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [busca, setBusca] = useState("");
+  const [filtrados, setFiltrados] = useState([]);
 
   async function carregar() {
     try {
       const data = await listarCarros();
       setCarros(data);
+      setFiltrados(data);
     } catch (err) {
       alert("Erro ao carregar carros");
     } finally {
@@ -31,6 +35,18 @@ export default function CarroListScreen() {
     }, [])
   );
 
+  async function filtrar(texto) {
+    setBusca(texto);
+
+    if (!texto.trim()) {
+      carregar(); 
+      return;
+    }
+
+    const resultado = await buscarCarros(texto);
+    setFiltrados(resultado);
+  }
+
   if (loading)
     return (
       <View style={styles.center}>
@@ -40,6 +56,13 @@ export default function CarroListScreen() {
 
   return (
     <View style={styles.container}>
+      <TextInput
+        style={styles.input}
+        placeholder="Buscar por modelo, marca ou placa..."
+        value={busca}
+        onChangeText={filtrar}
+      />
+
       <TouchableOpacity
         onPress={() => router.push("/carro/novo")}
         style={styles.btnNovo}
@@ -47,8 +70,9 @@ export default function CarroListScreen() {
         <Text style={styles.btnNovoText}>+ Novo Carro</Text>
       </TouchableOpacity>
 
+      {/* LISTA */}
       <FlatList
-        data={carros}
+        data={filtrados}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <TouchableOpacity
@@ -70,6 +94,17 @@ export default function CarroListScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20 },
   center: { flex: 1, justifyContent: "center", alignItems: "center" },
+
+  input: {
+    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: "#ccc",
+    padding: 10,
+    borderRadius: 8,
+    marginBottom: 15,
+    fontSize: 16,
+  },
+
   btnNovo: {
     backgroundColor: "#3498db",
     padding: 12,
@@ -77,6 +112,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   btnNovoText: { color: "#fff", textAlign: "center", fontSize: 16 },
+
   card: {
     padding: 15,
     backgroundColor: "#eee",

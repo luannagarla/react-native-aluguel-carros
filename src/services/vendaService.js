@@ -39,3 +39,13 @@ export async function excluirVenda(id) {
     throw e;
   }
 }
+
+export async function buscarVendas(texto) {
+  try {
+    const r = await api.get(`/vendas/buscar?q=${texto}`);
+    return r.data;
+  } catch (e) {
+    console.log("ERRO BUSCAR VENDAS >>", e);
+    throw e;
+  }
+}

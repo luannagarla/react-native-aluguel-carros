@@ -27,3 +27,8 @@ export async function atualizarCarro(id, carro) {
 export async function excluirCarro(id) {
   await api.delete(`/carros/${id}`);
 }
+
+export async function buscarCarros(texto) {
+  const r = await api.get(`/carros/buscar?q=${texto}`);
+  return r.data;
+}

@@ -39,3 +39,14 @@ export async function excluirCliente(id) {
     throw e;
   }
 }
+
+export async function buscarClientes(texto) {
+  try {
+    const r = await api.get(`/clientes/buscar?q=${texto}`);
+    return r.data;
+  } catch (e) {
+    console.log("ERRO BUSCAR CLIENTES FILTRO >>", e);
+    throw e;
+  }
+}
+
