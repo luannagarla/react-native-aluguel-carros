@@ -8,6 +8,7 @@ import {
   TextInput,
   View,
 } from "react-native";
+
 import { criarFuncionario } from "../../src/services/funcionarioService";
 
 export default function FuncionarioFormScreen() {
@@ -32,7 +33,7 @@ export default function FuncionarioFormScreen() {
       });
 
       Alert.alert("Sucesso", "Funcionário cadastrado!");
-      router.back();
+      router.replace("/funcionario"); 
     } catch (err) {
       Alert.alert("Erro", err.message || "Falha ao salvar");
     }
@@ -42,21 +43,57 @@ export default function FuncionarioFormScreen() {
     <View style={styles.container}>
       <Text style={styles.title}>Novo Funcionário</Text>
 
-      <TextInput style={styles.input} placeholder="Nome" value={nome} onChangeText={setNome} />
-      <TextInput style={styles.input} placeholder="CPF" value={cpf} onChangeText={setCpf} />
-      <TextInput style={styles.input} placeholder="Telefone" value={telefone} onChangeText={setTelefone} />
-      <TextInput style={styles.input} placeholder="Matrícula" value={matricula} onChangeText={setMatricula} />
-      <TextInput style={styles.input} placeholder="Login" value={login} onChangeText={setLogin} />
-
+      <Text style={styles.label}>Nome</Text>
       <TextInput
         style={styles.input}
-        placeholder="Senha"
+        value={nome}
+        onChangeText={setNome}
+      />
+
+      <Text style={styles.label}>CPF</Text>
+      <TextInput
+        style={styles.input}
+        value={cpf}
+        keyboardType="numeric"
+        onChangeText={setCpf}
+      />
+
+      <Text style={styles.label}>Telefone</Text>
+      <TextInput
+        style={styles.input}
+        value={telefone}
+        keyboardType="phone-pad"
+        onChangeText={setTelefone}
+      />
+
+      <Text style={styles.label}>Matrícula</Text>
+      <TextInput
+        style={styles.input}
+        value={matricula}
+        onChangeText={setMatricula}
+      />
+
+      <Text style={styles.label}>Login</Text>
+      <TextInput
+        style={styles.input}
+        value={login}
+        onChangeText={setLogin}
+      />
+
+      <Text style={styles.label}>Senha</Text>
+      <TextInput
+        style={styles.input}
         secureTextEntry
         value={senha}
         onChangeText={setSenha}
       />
 
-      <TextInput style={styles.input} placeholder="Cargo" value={cargo} onChangeText={setCargo} />
+      <Text style={styles.label}>Cargo</Text>
+      <TextInput
+        style={styles.input}
+        value={cargo}
+        onChangeText={setCargo}
+      />
 
       <Button title="Salvar" onPress={salvar} />
     </View>
@@ -64,7 +101,22 @@ export default function FuncionarioFormScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 20 },
-  input: { borderWidth: 1, padding: 10, marginBottom: 10, borderRadius: 6 },
+  container: { padding: 20, flex: 1 },
   title: { fontSize: 22, fontWeight: "bold", marginBottom: 20 },
+
+  label: {
+    fontSize: 16,
+    fontWeight: "600",
+    marginBottom: 5,
+    marginTop: 10,
+  },
+
+  input: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    padding: 10,
+    borderRadius: 6,
+    backgroundColor: "#fff",
+    marginBottom: 10,
+  },
 });

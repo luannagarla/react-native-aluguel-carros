@@ -41,7 +41,7 @@ export default function FuncionarioListScreen() {
     setBusca(texto);
 
     if (!texto.trim()) {
-      setFiltrados(funcionarios); // volta toda a lista
+      setFiltrados(funcionarios);
       return;
     }
 
@@ -64,7 +64,6 @@ export default function FuncionarioListScreen() {
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Funcionários</Text>
 
-      {/* CAMPO DE BUSCA */}
       <TextInput
         placeholder="Buscar por nome..."
         value={busca}
@@ -76,6 +75,7 @@ export default function FuncionarioListScreen() {
         <View key={f.id} style={styles.card}>
           <Text style={styles.cardTitle}>{f.nome}</Text>
           <Text>Cargo: {f.cargo}</Text>
+          <Text>Status: {f.excluido ? "Excluído" : "Ativo"}</Text>
 
           <TouchableOpacity
             onPress={() => router.push(`/funcionario/${f.id}`)}

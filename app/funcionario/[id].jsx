@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
-  Button,
   StyleSheet,
   Text,
-  View,
+  TouchableOpacity,
+  View
 } from "react-native";
 import {
   buscarFuncionario,
@@ -54,14 +54,21 @@ export default function FuncionarioDetailsScreen() {
         </>
       )}
 
-      <Button
-        title="Excluir"
-        color="red"
+      <TouchableOpacity
+        style={[styles.btn, styles.btnEditar]}
+        onPress={() => router.push(`/funcionario/editar/${id}`)}
+      >
+        <Text style={styles.btnText}>Editar</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={[styles.btn, styles.btnExcluir]}
         onPress={() =>
           Alert.alert("Confirmação", "Excluir este funcionário?", [
-            { text: "Cancelar" },
+            { text: "Cancelar", style: "cancel" },
             {
               text: "Excluir",
+              style: "destructive",
               onPress: async () => {
                 await excluirFuncionario(id);
                 router.back();
@@ -69,15 +76,33 @@ export default function FuncionarioDetailsScreen() {
             },
           ])
         }
-      />
+      >
+        <Text style={styles.btnText}>Excluir</Text>
+      </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 20 },
+  container: { padding: 20, flex: 1 },
   center: { flex: 1, justifyContent: "center", alignItems: "center" },
   title: { fontSize: 22, fontWeight: "bold", marginBottom: 20 },
   item: { fontSize: 18, marginBottom: 10 },
   erro: { color: "red", fontSize: 16 },
+
+  btn: {
+    padding: 14,
+    borderRadius: 8,
+    marginTop: 10,
+  },
+
+  btnEditar: { backgroundColor: "#3498db" },
+  btnExcluir: { backgroundColor: "#e74c3c" },
+
+  btnText: {
+    textAlign: "center",
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
 });

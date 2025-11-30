@@ -3,12 +3,14 @@ import { useEffect, useState } from "react";
 import {
   Alert,
   Button,
-  Pressable,
   ScrollView,
   StyleSheet,
   Text,
-  TextInput
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
+
 import api from "../../src/services/api";
 import { criarVenda } from "../../src/services/vendaService";
 
@@ -20,6 +22,10 @@ export default function VendaFormScreen() {
   const [clienteId, setClienteId] = useState(null);
   const [funcionarioId, setFuncionarioId] = useState(null);
   const [carroId, setCarroId] = useState(null);
+
+  const [showClientes, setShowClientes] = useState(false);
+  const [showFuncionarios, setShowFuncionarios] = useState(false);
+  const [showCarros, setShowCarros] = useState(false);
 
   const [dataInicio, setDataInicio] = useState("");
   const [dataFim, setDataFim] = useState("");
@@ -60,7 +66,7 @@ export default function VendaFormScreen() {
       });
 
       Alert.alert("Sucesso", "Venda cadastrada!");
-      router.back();
+      router.replace("/venda"); 
     } catch (e) {
       Alert.alert("Erro", e.message || "Falha ao salvar venda");
     }
@@ -70,68 +76,121 @@ export default function VendaFormScreen() {
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Nova Venda</Text>
 
-      {/* CLIENTE */}
+      {/* ----------------------------- CLIENTE ----------------------------- */}
       <Text style={styles.label}>Cliente</Text>
-      {clientes.map((c) => (
-        <Pressable
-          key={c.id}
-          onPress={() => setClienteId(c.id)}
-          style={[
-            styles.selectItem,
-            clienteId === c.id && styles.selectItemSelected,
-          ]}
-        >
-          <Text>{c.nome}</Text>
-        </Pressable>
-      ))}
 
-      {/* FUNCIONARIO */}
+      <TouchableOpacity
+        style={styles.dropdown}
+        onPress={() => setShowClientes(!showClientes)}
+      >
+        <Text style={styles.dropdownText}>
+          {clienteId
+            ? clientes.find((c) => c.id === clienteId)?.nome
+            : "Selecione um cliente"}
+        </Text>
+      </TouchableOpacity>
+
+      {showClientes && (
+        <View style={styles.dropdownList}>
+          {clientes.map((c) => (
+            <TouchableOpacity
+              key={c.id}
+              onPress={() => {
+                setClienteId(c.id);
+                setShowClientes(false);
+              }}
+              style={styles.dropdownItem}
+            >
+              <Text>{c.nome}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      )}
+
+      {/* ----------------------------- FUNCIONÁRIO ----------------------------- */}
       <Text style={styles.label}>Funcionário</Text>
-      {funcionarios.map((f) => (
-        <Pressable
-          key={f.id}
-          onPress={() => setFuncionarioId(f.id)}
-          style={[
-            styles.selectItem,
-            funcionarioId === f.id && styles.selectItemSelected,
-          ]}
-        >
-          <Text>{f.nome}</Text>
-        </Pressable>
-      ))}
 
-      {/* CARRO */}
+      <TouchableOpacity
+        style={styles.dropdown}
+        onPress={() => setShowFuncionarios(!showFuncionarios)}
+      >
+        <Text style={styles.dropdownText}>
+          {funcionarioId
+            ? funcionarios.find((f) => f.id === funcionarioId)?.nome
+            : "Selecione um funcionário"}
+        </Text>
+      </TouchableOpacity>
+
+      {showFuncionarios && (
+        <View style={styles.dropdownList}>
+          {funcionarios.map((f) => (
+            <TouchableOpacity
+              key={f.id}
+              onPress={() => {
+                setFuncionarioId(f.id);
+                setShowFuncionarios(false);
+              }}
+              style={styles.dropdownItem}
+            >
+              <Text>{f.nome}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      )}
+
+      {/* ----------------------------- CARRO ----------------------------- */}
       <Text style={styles.label}>Carro Disponível</Text>
-      {carros.map((car) => (
-        <Pressable
-          key={car.id}
-          onPress={() => setCarroId(car.id)}
-          style={[
-            styles.selectItem,
-            carroId === car.id && styles.selectItemSelected,
-          ]}
-        >
-          <Text>{car.modelo} - {car.placa}</Text>
-        </Pressable>
-      ))}
 
-      {/* CAMPOS */}
+      <TouchableOpacity
+        style={styles.dropdown}
+        onPress={() => setShowCarros(!showCarros)}
+      >
+        <Text style={styles.dropdownText}>
+          {carroId
+            ? carros.find((car) => car.id === carroId)?.modelo +
+              " - " +
+              carros.find((car) => car.id === carroId)?.placa
+            : "Selecione um carro"}
+        </Text>
+      </TouchableOpacity>
+
+      {showCarros && (
+        <View style={styles.dropdownList}>
+          {carros.map((car) => (
+            <TouchableOpacity
+              key={car.id}
+              onPress={() => {
+                setCarroId(car.id);
+                setShowCarros(false);
+              }}
+              style={styles.dropdownItem}
+            >
+              <Text>{car.modelo} - {car.placa}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      )}
+
+      {/* ----------------------------- CAMPOS ----------------------------- */}
+      <Text style={styles.label}>Data Início</Text>
       <TextInput
-        placeholder="Data início (AAAA-MM-DD)"
+        placeholder="AAAA-MM-DD"
         style={styles.input}
         value={dataInicio}
         onChangeText={setDataInicio}
       />
 
+      <Text style={styles.label}>Data Fim</Text>
       <TextInput
-        placeholder="Data fim (AAAA-MM-DD)"
+        placeholder="AAAA-MM-DD"
         style={styles.input}
         value={dataFim}
         onChangeText={setDataFim}
       />
 
+      <Text style={styles.label}>Valor Total</Text>
       <TextInput
-        placeholder="Valor total"
+        placeholder="Ex: 1200.50"
         style={styles.input}
         keyboardType="numeric"
         value={valorTotal}
@@ -146,17 +205,47 @@ export default function VendaFormScreen() {
 const styles = StyleSheet.create({
   container: { padding: 20 },
   title: { fontSize: 22, fontWeight: "bold", marginBottom: 20 },
-  label: { fontWeight: "bold", marginTop: 15, marginBottom: 5 },
-  input: { borderWidth: 1, padding: 10, marginBottom: 10 },
-  selectItem: {
-    padding: 12,
-    backgroundColor: "#eee",
-    marginBottom: 6,
+
+  label: {
+    fontWeight: "600",
+    marginTop: 15,
+    marginBottom: 5,
+    fontSize: 16,
+  },
+
+  // INPUTS
+  input: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    padding: 10,
+    borderRadius: 6,
+    backgroundColor: "#fff",
+  },
+
+  // DROPDOWN BASE
+  dropdown: {
+    padding: 14,
+    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: "#ccc",
     borderRadius: 6,
   },
-  selectItemSelected: {
-    backgroundColor: "#cce5ff",
+  dropdownText: {
+    color: "#333",
+  },
+
+  dropdownList: {
+    backgroundColor: "#fff",
     borderWidth: 1,
-    borderColor: "#007bff",
+    borderColor: "#ccc",
+    borderRadius: 6,
+    marginTop: 5,
+    marginBottom: 10,
+  },
+
+  dropdownItem: {
+    padding: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
   },
 });

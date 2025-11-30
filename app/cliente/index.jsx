@@ -73,6 +73,7 @@ export default function ClienteListScreen() {
         <View key={c.id} style={styles.card}>
           <Text style={styles.cardTitle}>{c.nome}</Text>
           <Text>CPF: {c.cpf}</Text>
+          <Text>Status: {c.excluido ? "Excluído" : "Ativo"}</Text>
 
           <TouchableOpacity
             onPress={() => router.push(`/cliente/${c.id}`)}

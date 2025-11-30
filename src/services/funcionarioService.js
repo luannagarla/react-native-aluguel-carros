@@ -49,3 +49,9 @@ export async function buscarFuncionarios(texto) {
     throw e;
   }
 }
+
+export async function atualizarFuncionario(id, data) {
+  const r = await api.put(`/funcionarios/${id}`, data);
+  return r.data;
+}
+

@@ -70,7 +70,6 @@ export default function CarroListScreen() {
         <Text style={styles.btnNovoText}>+ Novo Carro</Text>
       </TouchableOpacity>
 
-      {/* LISTA */}
       <FlatList
         data={filtrados}
         keyExtractor={(item) => item.id.toString()}
@@ -84,6 +83,8 @@ export default function CarroListScreen() {
             </Text>
             <Text>Placa: {item.placa}</Text>
             <Text>Ano: {item.ano}</Text>
+            <Text>Status: {item.excluido ? "Excluído" : "Ativo"}</Text>
+            <Text>Status: {item.disponivel && !item.excluido ? "Disponível" : "Indisponível"}</Text>
           </TouchableOpacity>
         )}
       />

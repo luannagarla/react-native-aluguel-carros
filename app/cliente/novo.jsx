@@ -19,18 +19,11 @@ export default function ClienteFormScreen() {
 
   async function salvar() {
     try {
-      await criarCliente({
-        nome,
-        cpf,
-        telefone,
-        email,
-        cep,
-      });
+      await criarCliente({ nome, cpf, telefone, email, cep });
 
       Alert.alert("Sucesso", "Cliente cadastrado!");
-      router.back();
+      router.replace("/cliente");
     } catch (err) {
-      console.log("ERRO CLIENTE FRONT >>>", err);
       Alert.alert("Erro", err.message || "Falha ao salvar");
     }
   }
@@ -39,11 +32,49 @@ export default function ClienteFormScreen() {
     <View style={styles.container}>
       <Text style={styles.title}>Novo Cliente</Text>
 
-      <TextInput placeholder="Nome" style={styles.input} value={nome} onChangeText={setNome} />
-      <TextInput placeholder="CPF" style={styles.input} value={cpf} onChangeText={setCpf} />
-      <TextInput placeholder="Telefone" style={styles.input} value={telefone} onChangeText={setTelefone} />
-      <TextInput placeholder="Email" style={styles.input} value={email} onChangeText={setEmail} />
-      <TextInput placeholder="CEP" style={styles.input} value={cep} onChangeText={setCep} />
+      <Text style={styles.label}>Nome</Text>
+      <TextInput
+        placeholder="Digite o nome"
+        style={styles.input}
+        value={nome}
+        onChangeText={setNome}
+      />
+
+      <Text style={styles.label}>CPF</Text>
+      <TextInput
+        placeholder="Somente números"
+        style={styles.input}
+        value={cpf}
+        onChangeText={setCpf}
+        keyboardType="numeric"
+      />
+
+      <Text style={styles.label}>Telefone</Text>
+      <TextInput
+        placeholder="DDD + número"
+        style={styles.input}
+        value={telefone}
+        onChangeText={setTelefone}
+        keyboardType="phone-pad"
+      />
+
+      <Text style={styles.label}>Email</Text>
+      <TextInput
+        placeholder="email@exemplo.com"
+        style={styles.input}
+        value={email}
+        onChangeText={setEmail}
+        keyboardType="email-address"
+      />
+
+      <Text style={styles.label}>CEP</Text>
+      <TextInput
+        placeholder="Somente números"
+        style={styles.input}
+        value={cep}
+        onChangeText={setCep}
+        keyboardType="numeric"
+      />
 
       <Button title="Salvar" onPress={salvar} />
     </View>
@@ -52,6 +83,14 @@ export default function ClienteFormScreen() {
 
 const styles = StyleSheet.create({
   container: { padding: 20 },
-  input: { borderWidth: 1, padding: 10, marginBottom: 10, borderRadius: 6 },
+  input: {
+    borderWidth: 1,
+    padding: 10,
+    marginBottom: 15,
+    borderRadius: 6,
+    backgroundColor: "#fff",
+    borderColor: "#ccc",
+  },
   title: { fontSize: 22, fontWeight: "bold", marginBottom: 20 },
+  label: { fontSize: 16, fontWeight: "600", marginBottom: 5 },
 });

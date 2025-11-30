@@ -12,7 +12,6 @@ import { buscarCarro, excluirCarro } from "../../src/services/carroService";
 
 export default function CarroDetailsScreen() {
   const params = useLocalSearchParams();
-
   const id = Number(Array.isArray(params.id) ? params.id[0] : params.id);
 
   const [carro, setCarro] = useState(null);
@@ -52,8 +51,18 @@ export default function CarroDetailsScreen() {
           <Text style={styles.item}>Marca: {carro.marca}</Text>
           <Text style={styles.item}>Placa: {carro.placa}</Text>
           <Text style={styles.item}>Ano: {carro.ano}</Text>
+          <Text style={styles.item}>Ano: {carro.excluido ? "Excluído" : "Ativo" }</Text>
+          <Text style={styles.item}>Ano: {carro.disponivel && !carro.excluido ? "Disponível": "Indisponível"}</Text>
         </>
       )}
+
+      {/* 🔵 BOTÃO EDITAR */}
+      <TouchableOpacity
+        style={styles.btnEditar}
+        onPress={() => router.push(`/carro/editar/${id}`)}
+      >
+        <Text style={styles.txtBtn}>Editar</Text>
+      </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.btnExcluir}
@@ -76,7 +85,7 @@ export default function CarroDetailsScreen() {
           ])
         }
       >
-        <Text style={styles.txtExcluir}>Excluir</Text>
+        <Text style={styles.txtBtn}>Excluir</Text>
       </TouchableOpacity>
     </View>
   );
@@ -89,13 +98,21 @@ const styles = StyleSheet.create({
   item: { fontSize: 18, marginBottom: 10 },
   erro: { color: "red", marginBottom: 10, fontSize: 16 },
 
+  btnEditar: {
+    backgroundColor: "#3498db",
+    padding: 14,
+    borderRadius: 8,
+    marginTop: 20,
+  },
+
   btnExcluir: {
     backgroundColor: "red",
     padding: 14,
     borderRadius: 8,
-    marginTop: 30,
+    marginTop: 10,
   },
-  txtExcluir: {
+
+  txtBtn: {
     color: "#fff",
     textAlign: "center",
     fontSize: 18,
