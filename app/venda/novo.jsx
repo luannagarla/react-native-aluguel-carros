@@ -76,7 +76,6 @@ export default function VendaFormScreen() {
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Nova Venda</Text>
 
-      {/* ----------------------------- CLIENTE ----------------------------- */}
       <Text style={styles.label}>Cliente</Text>
 
       <TouchableOpacity
@@ -107,7 +106,6 @@ export default function VendaFormScreen() {
         </View>
       )}
 
-      {/* ----------------------------- FUNCIONÁRIO ----------------------------- */}
       <Text style={styles.label}>Funcionário</Text>
 
       <TouchableOpacity
@@ -138,7 +136,6 @@ export default function VendaFormScreen() {
         </View>
       )}
 
-      {/* ----------------------------- CARRO ----------------------------- */}
       <Text style={styles.label}>Carro Disponível</Text>
 
       <TouchableOpacity
@@ -171,7 +168,6 @@ export default function VendaFormScreen() {
         </View>
       )}
 
-      {/* ----------------------------- CAMPOS ----------------------------- */}
       <Text style={styles.label}>Data Início</Text>
       <TextInput
         placeholder="AAAA-MM-DD"
@@ -213,7 +209,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 
-  // INPUTS
   input: {
     borderWidth: 1,
     borderColor: "#ccc",
@@ -222,7 +217,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
 
-  // DROPDOWN BASE
   dropdown: {
     padding: 14,
     backgroundColor: "#fff",

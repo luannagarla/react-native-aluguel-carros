@@ -61,13 +61,19 @@ export default function ClienteListScreen() {
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Clientes</Text>
 
-      {/* CAMPO DE BUSCA */}
       <TextInput
         placeholder="Buscar por nome..."
         style={styles.input}
         value={busca}
         onChangeText={filtrar}
       />
+
+      <TouchableOpacity
+        onPress={() => router.push("/cliente/novo")}
+        style={styles.btnNovo}
+      >
+        <Text style={styles.btnNovoText}>+ Novo Cliente</Text>
+      </TouchableOpacity>
 
       {filtrados.map((c) => (
         <View key={c.id} style={styles.card}>
@@ -84,12 +90,7 @@ export default function ClienteListScreen() {
         </View>
       ))}
 
-      <TouchableOpacity
-        onPress={() => router.push("/cliente/novo")}
-        style={styles.btnNovo}
-      >
-        <Text style={styles.btnNovoText}>+ Novo Cliente</Text>
-      </TouchableOpacity>
+      
     </ScrollView>
   );
 }
@@ -106,6 +107,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 15,
     fontSize: 16,
+    color: "#000",
   },
 
   card: {

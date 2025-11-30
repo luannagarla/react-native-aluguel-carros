@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 15,
     fontSize: 16,
+    color: "#000",
   },
 
   btnNovo: {

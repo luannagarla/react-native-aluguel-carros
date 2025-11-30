@@ -56,7 +56,6 @@ export default function CarroDetailsScreen() {
         </>
       )}
 
-      {/* 🔵 BOTÃO EDITAR */}
       <TouchableOpacity
         style={styles.btnEditar}
         onPress={() => router.push(`/carro/editar/${id}`)}

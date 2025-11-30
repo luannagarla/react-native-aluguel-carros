@@ -61,13 +61,19 @@ export default function VendaListScreen() {
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Vendas</Text>
 
-      {/* CAMPO DE BUSCA */}
       <TextInput
         placeholder="Buscar por cliente ou placa do carro..."
         value={busca}
         onChangeText={filtrar}
         style={styles.input}
       />
+
+      <TouchableOpacity
+        onPress={() => router.push("/venda/novo")}
+        style={styles.btnNovo}
+      >
+        <Text style={styles.btnNovoText}>+ Nova Venda</Text>
+      </TouchableOpacity>
 
       {filtradas.map((v) => (
         <View key={v.id} style={styles.card}>
@@ -84,12 +90,7 @@ export default function VendaListScreen() {
         </View>
       ))}
 
-      <TouchableOpacity
-        onPress={() => router.push("/venda/novo")}
-        style={styles.btnNovo}
-      >
-        <Text style={styles.btnNovoText}>+ Nova Venda</Text>
-      </TouchableOpacity>
+      
     </ScrollView>
   );
 }
@@ -107,6 +108,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 15,
     fontSize: 16,
+    color: "#000",
   },
 
   card: {

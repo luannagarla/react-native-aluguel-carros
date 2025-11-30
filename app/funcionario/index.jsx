@@ -71,6 +71,13 @@ export default function FuncionarioListScreen() {
         style={styles.input}
       />
 
+      <TouchableOpacity
+        onPress={() => router.push("/funcionario/novo")}
+        style={styles.btnNovo}
+      >
+        <Text style={styles.btnNovoText}>+ Novo Funcionário</Text>
+      </TouchableOpacity>
+
       {filtrados.map((f) => (
         <View key={f.id} style={styles.card}>
           <Text style={styles.cardTitle}>{f.nome}</Text>
@@ -85,13 +92,6 @@ export default function FuncionarioListScreen() {
           </TouchableOpacity>
         </View>
       ))}
-
-      <TouchableOpacity
-        onPress={() => router.push("/funcionario/novo")}
-        style={styles.btnNovo}
-      >
-        <Text style={styles.btnNovoText}>+ Novo Funcionário</Text>
-      </TouchableOpacity>
     </ScrollView>
   );
 }
@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 15,
     fontSize: 16,
+    color: "#000",
   },
 
   title: { fontSize: 22, fontWeight: "bold", marginBottom: 20 },
