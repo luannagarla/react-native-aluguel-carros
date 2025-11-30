@@ -71,7 +71,7 @@ export default function FuncionarioDetailsScreen() {
               style: "destructive",
               onPress: async () => {
                 await excluirFuncionario(id);
-                router.back();
+                router.replace("/funcionario");
               },
             },
           ])

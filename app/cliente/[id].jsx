@@ -70,7 +70,7 @@ export default function ClienteDetailsScreen() {
                 try {
                   await excluirCliente(id);
                   Alert.alert("Sucesso", "Cliente excluído!");
-                  router.back();
+                  router.replace("/cliente");
                 } catch (err) {
                   Alert.alert("Erro", err.message || "Erro ao excluir");
                 }

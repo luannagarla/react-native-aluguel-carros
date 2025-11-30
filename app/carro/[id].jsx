@@ -76,7 +76,7 @@ export default function CarroDetailsScreen() {
                 try {
                   await excluirCarro(id);
                   Alert.alert("Sucesso", "Carro excluído!");
-                  router.back();
+                  router.replace("/carro")
                 } catch (err) {
                   Alert.alert("Erro", err.message || "Erro ao excluir");
                 }

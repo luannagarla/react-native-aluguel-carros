@@ -64,7 +64,7 @@ export default function VendaDetailsScreen() {
               text: "Excluir",
               onPress: async () => {
                 await excluirVenda(id);
-                router.back();
+                router.replace("/venda");
               },
             },
           ])
